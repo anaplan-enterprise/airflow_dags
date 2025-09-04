@@ -1,30 +1,30 @@
-# .github/workflows/deploy-dags.yml
-name: Deploy Airflow DAGs
+# # .github/workflows/deploy-dags.yml
+# name: Deploy Airflow DAGs
 
-# Trigger the workflow on a push to the main branch
-# but only when files in the 'dags/' directory have changed.
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'dags/**'
+# # Trigger the workflow on a push to the main branch
+# # but only when files in the 'dags/' directory have changed.
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'dags/**'
 
-jobs:
-  deploy:
-    name: Deploy DAGs to Linux Server
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Check out the repository's code
-      - name: Checkout repository
-        uses: actions/checkout@v4
+# jobs:
+#   deploy:
+#     name: Deploy DAGs to Linux Server
+#     runs-on: ubuntu-latest
+#     steps:
+#       # Step 1: Check out the repository's code
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
 
-      # Step 2: Sync files to the Airflow server
-      - name: Copy DAG files via scp
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dags/"
-          target: "/home/airflowadmin/airflow/airflow_dags"
+#       # Step 2: Sync files to the Airflow server
+#       - name: Copy DAG files via scp
+#         uses: appleboy/scp-action@v0.1.4
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#           source: "dags/"
+#           target: "/home/airflowadmin/airflow/airflow_dags"

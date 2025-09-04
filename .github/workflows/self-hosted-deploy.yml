@@ -1,0 +1,41 @@
+# .github/workflows/self-hosted-deploy.yml
+name: Deploy DAGs via Self-Hosted Runner
+
+# Trigger the workflow on a push to the main branch,
+# but only when files in the 'dags/' directory have changed.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dags/**'
+
+jobs:
+  deploy-dags:
+    name: Deploy DAGs to Server
+    
+    # This is the most important line: it tells GitHub to run this job
+    # on your self-hosted runner named "deploy-runner".
+    runs-on: deploy-runner
+
+    steps:
+      # Step 1: Check out the repository's code
+      # This downloads the latest version of your code from the main branch
+      # into the runner's working directory.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Copy the DAGs to your Airflow directory
+      # This is a simple, local shell command.
+      - name: Copy DAG files to Airflow folder
+        run: |
+          echo "Starting DAG deployment..."
+          
+          # Use 'cp -R' to recursively copy the contents of the 'dags' folder.
+          # The '/*' ensures you copy the contents, not the folder itself.
+          #
+          # IMPORTANT: Replace the target path with the correct one for your server.
+          cp -R dags/* /home/airflowadmin/airflow/airflow_dags/
+          
+          echo "Deployment completed successfully."
+
