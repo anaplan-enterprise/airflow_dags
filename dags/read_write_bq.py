@@ -1,5 +1,6 @@
 import pendulum
 import pandas as pd
+from datetime import timedelta
 from airflow.decorators import dag, task
 from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 
@@ -17,12 +18,22 @@ BQ_SOURCE_TABLE = "okta_transaction_data"
 BQ_DESTINATION_DATASET = "outbound"
 BQ_DESTINATION_TABLE = "okta_dummy_test"
 
+
+# --- Define Default Arguments for the DAG ---
+default_args = {
+    'owner': 'Nagpritam Naik',  # <-- Specify the author's name
+    'email': ['nagpritam.naik@anaplan.com'],  # <-- Add recipient(s) in a list
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
+
 @dag(
     dag_id="read_write_bq",
+    default_args=default_args,
     description="Reads data from a BigQuery table, transforms it, and appends to another table.",
-    author="Nagpritam Naik",
-    email="nagpritam.naik@anaplan.com",
-    schedule=None,  # This DAG is manually triggered
+    schedule='@daily',  # This DAG is manually triggered
     start_date=pendulum.datetime(2025, 9, 11, tz="UTC"),
     catchup=False,
     tags=["bigquery", "etl", "pandas"],
