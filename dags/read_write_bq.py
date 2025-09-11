@@ -7,7 +7,7 @@ from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 # Make sure to replace these with your actual details
 
  # 1. Instantiate the BigQueryHook with your connection ID
-hook = BigQueryHook(gcp_conn_id=gbq_npn)
+hook = BigQueryHook(gcp_conn_id="gbq_npn")
         
 # 2. Get the credentials object from the hook
 credentials = hook.get_credentials()
