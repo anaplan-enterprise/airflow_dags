@@ -20,6 +20,8 @@ BQ_DESTINATION_TABLE = "okta_dummy_test"
 @dag(
     dag_id="read_write_bq",
     description="Reads data from a BigQuery table, transforms it, and appends to another table.",
+    author="Nagpritam Naik",
+    email="nagpritam.naik@anaplan.com",
     schedule=None,  # This DAG is manually triggered
     start_date=pendulum.datetime(2025, 9, 11, tz="UTC"),
     catchup=False,
