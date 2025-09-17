@@ -64,7 +64,7 @@ def DownloadEmp():
         #logger.info(df.to_json(orient="records"))
         #print(df.head(5))
         print(f"Sailesh :: Successfully extracted {len(df)} rows.")
-        return df
+        return df.encode('utf-8')
     @task
     def fetch_and_write_local(df):
         
