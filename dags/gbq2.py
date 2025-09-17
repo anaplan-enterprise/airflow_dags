@@ -1,0 +1,71 @@
+import pendulum
+import logging
+import pandas as pd
+from datetime import timedelta
+from airflow.decorators import dag, task
+from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
+from airflow.utils.log.logging_mixin import LoggingMixin
+# --- Set Your Google Cloud and BigQuery Variables ---
+# Make sure to replace these with your actual details
+
+ # 1. Instantiate the BigQueryHook with your connection ID
+hook = BigQueryHook(gcp_conn_id="gbq_npn")
+        
+# 2. Get the credentials object from the hook
+credentials = hook.get_credentials()
+#GCP_PROJECT_ID = hook.project_id         # Get project_id from the connection
+GCP_PROJECT_ID = "ap-infotech-develop-iics" 
+BQ_SOURCE_DATASET = "outbound"
+BQ_SOURCE_TABLE = "vw_CostCenters"
+BQ_DESTINATION_DATASET = "outbound"
+BQ_DESTINATION_TABLE = "vw_CostCenters"
+
+
+# --- Define Default Arguments for the DAG ---
+default_args = {
+    'owner': 'ETL',  # <-- Specify the author's name
+    'email': ['sailesh.kumaryadav@anaplan.com'],  # <-- Add recipient(s) in a list
+    'email_on_failure': True,
+    'email_on_retry': False,
+    'retries': 5,
+    'retry_delay': timedelta(minutes=5),
+}
+
+@dag(
+    dag_id="first_gbq",
+    default_args=default_args,
+    description="Reads data from a BigQuery table, transforms it, and appends to another table.",
+    schedule='@once',  # This DAG is manually triggered
+    start_date=pendulum.datetime(2025, 9, 15, tz="UTC"),
+    catchup=False,
+    tags=["bigquery", "etl", "pandas"],
+)
+
+def gbq2():
+    @task
+    def extract_from_bigquery() -> pd.DataFrame:
+        """
+        Reads data from the source BigQuery table and returns it as a Pandas DataFrame.
+        """
+        logger = LoggingMixin().log
+
+        print(f"Reading from {BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}...")
+        
+        # This is the query to select your data
+        sql_query = f"SELECT * FROM `{GCP_PROJECT_ID}.{BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}`;"
+        print(sql_query)
+        # pandas-gbq handles the connection and data fetching
+        df = pd.read_gbq(sql_query, project_id=GCP_PROJECT_ID)
+        json_str = df.to_json(orient="records")
+        logger.info("DF rows: %s", len(df))
+        logger.info("DF JSON length: %s", len(json_str))
+        logger.info("DF head:\n%s", df.head().to_string())
+        #print(df.to_json(orient="records")) 
+        logger.info(df.to_json(orient="records"))
+        #print(df.head(5))
+        print(f"Sailesh :: Successfully extracted {len(df)} rows.")
+        #return df
+
+    # Set the task dependency
+    extract_from_bigquery()
+gbq2()
