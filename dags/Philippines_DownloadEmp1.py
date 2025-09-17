@@ -65,19 +65,7 @@ def DownloadEmp():
         #print(df.head(5))
         print(f"Sailesh :: Successfully extracted {len(df)} rows.")
         return df.encode('utf-8')
-    @task
-    def fetch_and_write_local(df):
-        
-        # atomic write: write to temp file then rename
-        out_dir = "/home/airflowadmin/airflow/airflow_dags/Projects/WD_Philippines/"      # ensure this directory exists & is writable by worker
-        #os.makedirs(out_dir, exist_ok=True)
-        with NamedTemporaryFile("w", delete=False, dir=out_dir, suffix=".csv") as tmp:
-            tmp_path = tmp.name
-            df.to_csv(tmp, index=False)   # or df.head().to_csv(...) to limit
-        final_path = os.path.join(out_dir, "DownloadEmp.csv")
-        os.replace(tmp_path, final_path)  # atomic on most OSes
 
-        return final_path
     # Set the task dependency
     extract_from_bigquery()
 DownloadEmp()
