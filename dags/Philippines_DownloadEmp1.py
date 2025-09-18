@@ -57,7 +57,7 @@ def DownloadEmp():
         # pandas-gbq handles the connection and data fetching
         df = pd.read_gbq(sql_query, project_id=GCP_PROJECT_ID)
         json_str = df.to_json(orient="records")
-        logger.info("DF rows: %s", len(df))
+        #logger.info("DF rows: %s", len(df))
         #logger.info("DF JSON length: %s", len(json_str))
         #logger.info("DF head:\n%s", df.head().to_string())
         #print(df.to_json(orient="records")) 
