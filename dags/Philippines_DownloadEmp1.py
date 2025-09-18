@@ -20,7 +20,7 @@ GCP_PROJECT_ID = "ap-infotech-develop-iics"
 BQ_SOURCE_DATASET = "outbound"
 BQ_SOURCE_TABLE = "vw_wd_philippines"
 BQ_DESTINATION_DATASET = "outbound"
-BQ_DESTINATION_TABLE = "vw_wd_philippines"
+BQ_DESTINATION_TABLE = "vw_CostCenters"
 
 
 # --- Define Default Arguments for the DAG ---
