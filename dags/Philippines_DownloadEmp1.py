@@ -18,7 +18,7 @@ credentials = hook.get_credentials()
 #GCP_PROJECT_ID = hook.project_id         # Get project_id from the connection
 GCP_PROJECT_ID = "ap-infotech-develop-iics" 
 BQ_SOURCE_DATASET = "outbound"
-BQ_SOURCE_TABLE = "vw_wd_philippines"
+BQ_SOURCE_TABLE = "vw_CostCenters"
 BQ_DESTINATION_DATASET = "outbound"
 BQ_DESTINATION_TABLE = "vw_CostCenters"
 
