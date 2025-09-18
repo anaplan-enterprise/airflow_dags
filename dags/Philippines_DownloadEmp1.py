@@ -64,7 +64,7 @@ def DownloadEmp():
         #logger.info(df.to_json(orient="records"))
         #print(df.head(5))
         print(f"Sailesh :: Successfully extracted {len(df)} rows.")
-        #return df.encode('utf-8')
+        return df.encode('utf-8')
 
     # Set the task dependency
     extract_from_bigquery()
