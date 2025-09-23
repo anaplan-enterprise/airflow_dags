@@ -52,7 +52,7 @@ def DownloadEmp():
         print(f"Reading from {BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}...")
         
         # This is the query to select your data
-        sql_query = f"SELECT employee_id,hire_date,job_title,location,location_address_country,salary,contingent_worker_type,fte,default_weekly_hours,primary_home_address,National_Identifiers,dateofbirth,age,gender FROM `{GCP_PROJECT_ID}.{BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}`;"
+        sql_query = f"SELECT employee_id,hire_date,job_title,location,location_address_country,contingent_worker_type,fte,default_weekly_hours,primary_home_address,National_Identifiers,age,gender FROM `{GCP_PROJECT_ID}.{BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}`;"
         print(sql_query)
         # pandas-gbq handles the connection and data fetching
         df = pd.read_gbq(sql_query, project_id=GCP_PROJECT_ID)
