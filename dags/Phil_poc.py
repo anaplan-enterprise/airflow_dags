@@ -34,7 +34,7 @@ default_args = {
 }
 
 @dag(
-    dag_id="Philippines_DownloadEmp1",
+    dag_id="Phil_poc",
     default_args=default_args,
     description="Reads data from a BigQuery table, transforms it, and appends to another table.",
     schedule='@once',  # This DAG is manually triggered
