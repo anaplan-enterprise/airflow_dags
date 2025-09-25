@@ -55,6 +55,7 @@ def DownloadEmp():
             # This is the query to select your data
             sql_query = f"SELECT employee_id,hire_date,job_title,location,location_address_country,contingent_worker_type,fte,default_weekly_hours,primary_home_address,National_Identifiers,age,gender FROM `{GCP_PROJECT_ID}.{BQ_SOURCE_DATASET}.{BQ_SOURCE_TABLE}`;"
             print(sql_query)
+            OUTPUT_FILE=f"/home/airflowadmin/airflow/airflow_dags/Projects/WD_Philippines/TgtFiles/phil.csv"
             query_job = client.query(sql_query)
             df = query_job.result().to_dataframe(create_bqstorage_client=False)
             logging.info("Query returned %s rows", len(df))
