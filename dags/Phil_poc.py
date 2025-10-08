@@ -8,6 +8,7 @@ from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 from airflow.utils.log.logging_mixin import LoggingMixin
 from tempfile import NamedTemporaryFile
 import subprocess
+from airflow.exceptions import AirflowFailException
 # --- Set Your Google Cloud and BigQuery Variables ---
 # Make sure to replace these with your actual details
 
