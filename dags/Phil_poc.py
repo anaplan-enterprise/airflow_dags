@@ -63,7 +63,7 @@ def DownloadEmp():
             os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
             df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
             logging.info("Wrote CSV to %s", OUTPUT_FILE)
-            subprocess.run(["python3.10", "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_files_to_sharepoint.py /home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_param.txt"], check=True)
+            subprocess.run(["python3.10", "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_files_to_sharepoint.py" "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_param.txt"], check=True)
             # pandas-gbq handles the connection and data fetching
             #df = pd.read_gbq(sql_query, project_id=GCP_PROJECT_ID)
             #json_str = df.to_json(orient="records")
