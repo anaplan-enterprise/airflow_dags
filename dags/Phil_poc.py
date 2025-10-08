@@ -78,7 +78,7 @@ def DownloadEmp():
             #return df
         except Exception as e:
             logging.exception("BigQuery extract or CSV write failed.")
-            raise AirflowFailException(f"Extract failed: {e}")
+            raise AirflowException(f"Extract failed: {e}")
 
     # Set the task dependency
     extract_from_bigquery()
