@@ -30,7 +30,7 @@ BQ_DESTINATION_TABLE = "vw_wd_philippines"
 default_args = {
     'owner': 'ETL',  # <-- Specify the author's name
     'email': ['sailesh.kumaryadav@anaplan.com'],  # <-- Add recipient(s) in a list
-    'email_on_failure': True,
+    'email_on_failure': False,
     'email_on_retry': False,
     'retries': 0,
     'retry_delay': timedelta(minutes=5),
