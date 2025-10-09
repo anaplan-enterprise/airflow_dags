@@ -65,7 +65,21 @@ def DownloadEmp():
             os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
             df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
             logging.info("Wrote CSV to %s", OUTPUT_FILE)
-            subprocess.run(["python3.10", "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_files_to_sharepoint.py" " /home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_param.txt"], check=True)
+            script = "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_files_to_sharepoint.py"
+            param = "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_param.txt"
+            cmd = ["python3.10", script, param]
+            proc = subprocess.run(cmd, check=False, capture_output=True, text=True)
+            logging.info("cmd: %s", " ".join(cmd))
+            logging.info("stdout: %s", proc.stdout)
+            logging.info("stderr: %s", proc.stderr)
+
+            if proc.returncode != 0:
+                # include both stdout/stderr to help debug why upload script failed
+                raise AirflowException(
+                    f"External script failed (rc={proc.returncode}). stdout: {proc.stdout!r} stderr: {proc.stderr!r}"
+                )
+
+            #subprocess.run(["python3.10", "/home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_files_to_sharepoint.py" " /home/airflowadmin/airflow/airflow_dags/utilities/Sharepoint/upload_param.txt"], check=True)
             # pandas-gbq handles the connection and data fetching
             #df = pd.read_gbq(sql_query, project_id=GCP_PROJECT_ID)
             #json_str = df.to_json(orient="records")
